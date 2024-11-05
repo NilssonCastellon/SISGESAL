@@ -1,0 +1,295 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - SISGESAL</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .header h1 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+        .btn-export {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+            .btn-export button {
+                border: none;
+                color: #fff;
+                padding: 10px 20px;
+                font-size: 16px;
+                margin: 5px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+        .btn-pdf {
+            background-color: #dc3545; /* Rojo */
+        }
+
+        .btn-excel {
+            background-color: #28a745; /* Verde */
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .table th, .table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            .table th {
+                background-color: #f2f2f2;
+            }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+            .pagination .page-item {
+                display: inline;
+            }
+
+            .pagination .page-link {
+                border-radius: 0.25rem;
+                padding: 0.5rem 0.75rem;
+                margin: 0 0.125rem;
+                border: 1px solid #dee2e6;
+                color: #007bff;
+                text-align: center;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            .pagination .page-item.active .page-link {
+                background-color: #007bff;
+                color: #fff;
+                border-color: #007bff;
+            }
+
+            .pagination .page-link:hover {
+                background-color: #e9ecef;
+                border-color: #dee2e6;
+            }
+
+            .pagination .page-link.disabled {
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
+    </style>
+</head>
+<body>
+
+        <h1>Reportes Transacción Detalles</h1>
+    
+
+    <div class="btn-export">
+        <!-- Botón para Exportar a PDF -->
+        <button class="btn btn-pdf" onclick="exportToPDF()">
+            <i class="fas fa-file-pdf"></i> Exportar a PDF
+        </button>
+
+        <!-- Botón para Exportar a Excel -->
+        <button class="btn btn-excel" onclick="exportToExcel()">
+            <i class="fas fa-file-excel"></i> Exportar a Excel
+        </button>
+    </div>
+
+    <table id="reportTable" class="table">
+       
+            <thead>
+                <tr>
+                   @*  <th>Identificador</th> *@
+                    <th>Número ingresos</th>
+                    <th>Código Almacen</th>
+                    <th>Descripción Almacen</th>
+                   @*  <th>Código Artículo</th> *@
+                    <th>Descripción Artículo</th>
+                    <th>Operación</th>
+                    <th>Fecha Ingreso</th>
+                    <th>Entrada</th>
+                    <th>Precio Unitario</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                       @*  <td>@item.IdentificadorTrans</td> *@
+                        <td>@item.Ningresos</td>
+                        <td>@item.CodigoAlmacen</td>
+                        <td>@item.CodigoAlmacenNavigation.Descripcion</td>
+                       @*  <td>@item.CodigoArticulo</td> *@
+                        <td>@item.CodigoArticuloNavigation.DescripcionArticulo</td>
+                        <td>@item.Operacion</td>
+                        <td>@item.FechaIngreso.ToShortDateString()</td>
+                        <td>@item.Entrada</td>
+                        <td>@item.PrecioUnitario</td>
+                    </tr>
+                }
+            </tbody>
+       
+
+    </table>
+
+    <div class="pagination" id="pagination"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rowsPerPage = 15; // Número de filas por página
+            const table = document.getElementById('reportTable');
+            const pagination = document.getElementById('pagination');
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            const pageCount = Math.ceil(rows.length / rowsPerPage);
+
+            function showPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                rows.forEach((row, index) => {
+                    row.style.display = index >= start && index < end ? '' : 'none';
+                });
+                updatePagination(page);
+            }
+
+            function updatePagination(currentPage) {
+                pagination.innerHTML = '';
+                const paginationList = document.createElement('ul');
+                paginationList.className = 'pagination';
+
+                if (currentPage > 1) {
+                    const prevItem = document.createElement('li');
+                    prevItem.className = 'page-item';
+                    prevItem.innerHTML = '<a class="page-link" href="#" data-page="' + (currentPage - 1) + '">Página Anterior</a>';
+                    paginationList.appendChild(prevItem);
+                } else {
+                    const prevItem = document.createElement('li');
+                    prevItem.className = 'page-item disabled';
+                    prevItem.innerHTML = '<span class="page-link">Página Anterior</span>';
+                    paginationList.appendChild(prevItem);
+                }
+
+                for (let i = 1; i <= pageCount; i++) {
+                    const pageItem = document.createElement('li');
+                    pageItem.className = 'page-item' + (i === currentPage ? ' active' : '');
+                    pageItem.innerHTML = '<a class="page-link" href="#" data-page="' + i + '">' + i + '</a>';
+                    paginationList.appendChild(pageItem);
+                }
+
+                if (currentPage < pageCount) {
+                    const nextItem = document.createElement('li');
+                    nextItem.className = 'page-item';
+                    nextItem.innerHTML = '<a class="page-link" href="#" data-page="' + (currentPage + 1) + '">Página Siguiente</a>';
+                    paginationList.appendChild(nextItem);
+                } else {
+                    const nextItem = document.createElement('li');
+                    nextItem.className = 'page-item disabled';
+                    nextItem.innerHTML = '<span class="page-link">Página Siguiente</span>';
+                    paginationList.appendChild(nextItem);
+                }
+
+                pagination.appendChild(paginationList);
+
+                // Attach click event to pagination links
+                pagination.querySelectorAll('.page-link').forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const page = parseInt(this.getAttribute('data-page'));
+                        showPage(page);
+                    });
+                });
+            }
+
+            showPage(1); // Show the first page initially
+        });
+
+        //Exportar a Pdf
+        async function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const table = document.getElementById('reportTable');
+            if (!table) {
+                alert('No se encontró la tabla con id "reportTable".');
+                return;
+            }
+
+            // Definir las columnas con los títulos de la tabla
+            const columns = Array.from(table.querySelectorAll('thead th')).map(th => ({
+                title: th.textContent.trim(),
+                dataKey: th.textContent.trim()
+            }));
+
+            // Capturar los datos de todas las filas
+            const data = Array.from(table.querySelectorAll('tbody tr')).map(tr => {
+                const cells = tr.querySelectorAll('td');
+                const row = {};
+                columns.forEach((col, index) => {
+                    row[col.dataKey] = cells[index]?.textContent.trim() || '';
+                });
+                return row;
+            });
+
+            // Configura la fuente y el título
+            doc.setFontSize(18);
+            doc.text('Reporte Transacciones Detalles', 14, 20);
+
+            // Añadir imagen al encabezado si existe
+            const img = document.querySelector('img')?.src; // Asegúrate de que el <img> esté en el documento
+            if (img) {
+                const imgWidth = 30;
+                const imgHeight = 20;
+                doc.addImage(img, 'PNG', doc.internal.pageSize.getWidth() - imgWidth - 10, 10, imgWidth, imgHeight);
+            }
+
+            // Añadir fecha y hora
+            doc.setFontSize(12);
+            doc.text('Fecha del Reporte: ' + new Date().toLocaleDateString(), 14, 30);
+            doc.text('Hora del Reporte: ' + new Date().toLocaleTimeString(), 14, 40);
+
+            // Añadir tabla al PDF
+            doc.autoTable({
+                startY: 50,
+                head: [columns.map(col => col.title)],
+                body: data.map(item => columns.map(col => item[col.dataKey])),
+                styles: { overflow: 'linebreak' },
+                theme: 'striped',
+                headStyles: { fillColor: [41, 128, 185] },
+                bodyStyles: { fillColor: [224, 224, 224] },
+                pageBreak: 'auto'
+            });
+
+            // Guardar el PDF
+            doc.save('reporte-transacciones.pdf');
+        }
+
+        //Exportra a Excel
+        function exportToExcel() {
+            const table = document.getElementById('reportTable');
+
+            if (!table) {
+                alert('No se encontró la tabla con id "reportTable".');
+                return;
+            }
+
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Reporte" });
+            XLSX.writeFile(wb, 'reporte.xlsx');
+        }
+    </script>
+</body>
+</html>

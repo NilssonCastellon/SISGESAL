@@ -1,0 +1,146 @@
+﻿@model IEnumerable<SISGESAL.Models.ViewModels.TransaccionViewModel>
+
+@{
+    ViewData["Title"] = "Transacciones";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+
+<p>
+    <a asp-controller="Transacciones" asp-action="Create" class="btn btn-primary">
+        <i class="fas fa-plus-circle"></i> Crear Nueva Transacción
+    </a>
+    <div class="search-container float-end">
+        <!-- Cambiado aquí -->
+        <label for="searchInput" class="search-label">
+            <input type="text" id="searchInput" placeholder="Buscar..." class="form-control">
+            <button id="clearSearch" style="display: none;" class="btn btn-secondary ms-2">&times;</button>
+        </label>
+    </div>
+
+</p>
+
+<table id="miTabla" class="table">
+    <thead>
+        <tr>
+            <th>Número Ingresos</th>
+            <th>Código Almacén</th>
+            <th>Número Requisición</th>
+            <th>Fecha Requisición</th>
+            <th>Operación</th>
+            <th>Fecha Ingreso</th>
+            <th>Observación</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Ningresos</td>
+                <td>@item.CodigoAlmacen</td>
+                <td>@item.Nrequisicion</td>
+                <td>@item.FechaRequisicion.ToString("dd/MM/yyyy")</td>
+                <td>@item.Operacion</td>
+                <td>@item.FechaIngreso.ToString("dd/MM/yyyy")</td>
+                <td>@item.Observacion</td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="pagination" id="pagination"></div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const rowsPerPage = 15; // Número de filas por página
+            const table = $('#miTabla').DataTable({
+                "paging": false, // Desactivar la paginación por defecto de DataTables
+                "searching": false, // Desactivar la búsqueda por defecto de DataTables
+                "info": false // Desactivar la información de la tabla
+            });
+
+            const rows = $('#miTabla tbody tr').toArray();
+            const pageCount = Math.ceil(rows.length / rowsPerPage);
+
+            function showPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                rows.forEach((row, index) => {
+                    $(row).toggle(index >= start && index < end);
+                });
+                updatePagination(page);
+            }
+
+            function updatePagination(currentPage) {
+                $('#pagination').empty();
+                const paginationList = $('<ul class="pagination"></ul>');
+
+                // Página anterior
+                if (currentPage > 1) {
+                    paginationList.append('<li class="page-item"><a class="page-link" href="#" data-page="' + (currentPage - 1) + '">Página Anterior</a></li>');
+                } else {
+                    paginationList.append('<li class="page-item disabled"><span class="page-link">Página Anterior</span></li>');
+                }
+
+                // Botones de páginas
+                for (let i = 1; i <= pageCount; i++) {
+                    paginationList.append('<li class="page-item' + (i === currentPage ? ' active' : '') + '"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
+                }
+
+                // Página siguiente
+                if (currentPage < pageCount) {
+                    paginationList.append('<li class="page-item"><a class="page-link" href="#" data-page="' + (currentPage + 1) + '">Página Siguiente</a></li>');
+                } else {
+                    paginationList.append('<li class="page-item disabled"><span class="page-link">Página Siguiente</span></li>');
+                }
+
+                $('#pagination').append(paginationList);
+
+                // Adjuntar evento de clic a los enlaces de paginación
+                $('#pagination .page-link').on('click', function (e) {
+                    e.preventDefault();
+                    const page = parseInt($(this).data('page'));
+                    showPage(page);
+                });
+            }
+
+            showPage(1); // Mostrar la primera página inicialmente
+
+            // Funcionalidad de búsqueda
+            $('#searchInput').on('input', function () {
+                const searchValue = $(this).val().toLowerCase();
+                rows.forEach(row => {
+                    const rowText = $(row).text().toLowerCase();
+                    $(row).toggle(rowText.includes(searchValue));
+                });
+
+                // Mostrar/ocultar botón de limpiar búsqueda
+                $('#clearSearch').toggle(searchValue.length > 0);
+            });
+
+            // Limpiar búsqueda
+            $('#clearSearch').on('click', function () {
+                $('#searchInput').val('');
+                $('#searchInput').trigger('input');
+            });
+
+
+
+        });
+    </script>
+}

@@ -1,0 +1,32 @@
+﻿/* styles.css */
+.search-container {
+    display: flex;
+    justify-content: flex-end; /* Mueve el contenedor al lado derecho */
+    margin: 10px; /* Ajusta el margen según sea necesario */
+}
+
+.search-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#searchInput {
+    padding-right: 30px; /* Espacio para el botón de limpiar */
+    width: 200px; /* Ajusta según el tamaño deseado */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+#clearSearch {
+    position: absolute;
+    right: 10px; /* Ajusta el espacio desde el borde derecho */
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    cursor: pointer;
+    color: #888; /* Cambia el color si es necesario */
+    padding: 0;
+    margin: 0;
+}

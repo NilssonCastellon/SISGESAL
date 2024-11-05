@@ -1,0 +1,191 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|c:\\users\\lsamador\\desktop\\sisgesal2\\sisgesal\\sisgesal\\views\\transacciones\\report.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|solutionrelative:sisgesal\\views\\transacciones\\report.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|c:\\users\\lsamador\\desktop\\sisgesal2\\sisgesal\\sisgesal\\views\\transacciones\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|solutionrelative:sisgesal\\views\\transacciones\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|c:\\users\\lsamador\\desktop\\sisgesal2\\sisgesal\\sisgesal\\views\\transacciondetalles\\report.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|solutionrelative:sisgesal\\views\\transacciondetalles\\report.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|c:\\users\\lsamador\\desktop\\sisgesal2\\sisgesal\\sisgesal\\wwwroot\\css\\styles.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|solutionrelative:sisgesal\\wwwroot\\css\\styles.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|c:\\users\\lsamador\\desktop\\sisgesal2\\sisgesal\\sisgesal\\views\\shared\\_layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|solutionrelative:sisgesal\\views\\shared\\_layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|c:\\users\\lsamador\\desktop\\sisgesal2\\sisgesal\\sisgesal\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|solutionrelative:sisgesal\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|c:\\users\\lsamador\\desktop\\sisgesal2\\sisgesal\\sisgesal\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|solutionrelative:sisgesal\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|c:\\users\\lsamador\\desktop\\sisgesal2\\sisgesal\\sisgesal\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|solutionrelative:sisgesal\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|c:\\users\\lsamador\\desktop\\sisgesal2\\sisgesal\\sisgesal\\views\\transacciones\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|solutionrelative:sisgesal\\views\\transacciones\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|c:\\users\\lsamador\\desktop\\sisgesal2\\sisgesal\\sisgesal\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|solutionrelative:sisgesal\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\Transacciones\\Create.cshtml",
+              "RelativeDocumentMoniker": "SISGESAL\\Views\\Transacciones\\Create.cshtml",
+              "ToolTip": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\Transacciones\\Create.cshtml",
+              "RelativeToolTip": "SISGESAL\\Views\\Transacciones\\Create.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB4AAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-23T14:15:52.921Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "DashboardController.cs",
+              "DocumentMoniker": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Controllers\\DashboardController.cs",
+              "RelativeDocumentMoniker": "SISGESAL\\Controllers\\DashboardController.cs",
+              "ToolTip": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Controllers\\DashboardController.cs",
+              "RelativeToolTip": "SISGESAL\\Controllers\\DashboardController.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAQwFcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T14:44:36.224Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Report.cshtml",
+              "DocumentMoniker": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\Transacciones\\Report.cshtml",
+              "RelativeDocumentMoniker": "SISGESAL\\Views\\Transacciones\\Report.cshtml",
+              "ToolTip": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\Transacciones\\Report.cshtml",
+              "RelativeToolTip": "SISGESAL\\Views\\Transacciones\\Report.cshtml",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAAABUBAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-04T14:28:03.949Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\Transacciones\\Index.cshtml",
+              "RelativeDocumentMoniker": "SISGESAL\\Views\\Transacciones\\Index.cshtml",
+              "ToolTip": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\Transacciones\\Index.cshtml",
+              "RelativeToolTip": "SISGESAL\\Views\\Transacciones\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-04T14:28:02.515Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Report.cshtml",
+              "DocumentMoniker": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\TransaccionDetalles\\Report.cshtml",
+              "RelativeDocumentMoniker": "SISGESAL\\Views\\TransaccionDetalles\\Report.cshtml",
+              "ToolTip": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\TransaccionDetalles\\Report.cshtml",
+              "RelativeToolTip": "SISGESAL\\Views\\TransaccionDetalles\\Report.cshtml",
+              "ViewState": "AQIAAFgAAAAAAAAAAAAAwH0AAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-04T14:09:50.053Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "styles.css",
+              "DocumentMoniker": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\wwwroot\\css\\styles.css",
+              "RelativeDocumentMoniker": "SISGESAL\\wwwroot\\css\\styles.css",
+              "ToolTip": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\wwwroot\\css\\styles.css",
+              "RelativeToolTip": "SISGESAL\\wwwroot\\css\\styles.css",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-01T21:27:06.543Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "_Layout.cshtml.css",
+              "DocumentMoniker": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\Shared\\_Layout.cshtml.css",
+              "RelativeDocumentMoniker": "SISGESAL\\Views\\Shared\\_Layout.cshtml.css",
+              "ToolTip": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\Shared\\_Layout.cshtml.css",
+              "RelativeToolTip": "SISGESAL\\Views\\Shared\\_Layout.cshtml.css",
+              "ViewState": "AQIAAAYAAAAAAAAAAADwvyEAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-01T20:44:58.189Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "SISGESAL\\Views\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "SISGESAL\\Views\\_ViewImports.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-01T20:44:37.225Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Privacy.cshtml",
+              "DocumentMoniker": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\Home\\Privacy.cshtml",
+              "RelativeDocumentMoniker": "SISGESAL\\Views\\Home\\Privacy.cshtml",
+              "ToolTip": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\Home\\Privacy.cshtml",
+              "RelativeToolTip": "SISGESAL\\Views\\Home\\Privacy.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-01T20:44:18.771Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "SISGESAL\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\lsamador\\Desktop\\SISGESAL2\\SISGESAL\\SISGESAL\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "SISGESAL\\Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-01T20:44:16.13Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

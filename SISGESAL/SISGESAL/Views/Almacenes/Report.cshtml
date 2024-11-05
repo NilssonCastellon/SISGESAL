@@ -1,0 +1,277 @@
+﻿@model IEnumerable<SISGESAL.Models.ViewModels.AlmaceneViewModel>
+
+@{
+    ViewData["Title"] = "Reportes Almacenes";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - SISGESAL</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css" />
+    <link rel="stylesheet" href="~/path/to/your/css/styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .header img {
+                width: 100px; /* Ajusta según sea necesario */
+                height: auto;
+            }
+
+            .header h1 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+        .btn-export {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+            .btn-export button {
+                border: none;
+                color: #fff;
+                padding: 10px 20px;
+                font-size: 16px;
+                margin: 5px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+        .btn-pdf {
+            background-color: #dc3545; /* Rojo */
+        }
+
+        .btn-excel {
+            background-color: #28a745; /* Verde */
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .table th, .table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            .table th {
+                background-color: #f2f2f2;
+            }
+
+        .pagination {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+            .pagination .page-item {
+                display: inline-block;
+            }
+
+            .pagination .page-link {
+                margin: 0 2px;
+                padding: 5px 10px;
+                cursor: pointer;
+                color: #007bff;
+                border: 1px solid #dee2e6;
+                border-radius: 0.25rem;
+            }
+
+            .pagination .page-item.disabled .page-link {
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
+
+            .pagination .page-item.active .page-link {
+                background-color: #007bff;
+                color: #fff;
+            }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+
+    <div class="wrapper">
+        <!-- Main content -->
+        
+                    <h1>@ViewData["Title"]</h1>
+
+                    <div class="btn-export">
+                        <!-- Botón para Exportar a PDF -->
+                        <button class="btn btn-pdf" onclick="exportToPDF()">
+                            <i class="fas fa-file-pdf"></i> Exportar a PDF
+                        </button>
+
+                        <!-- Botón para Exportar a Excel -->
+                        <button class="btn btn-excel" onclick="exportToExcel()">
+                            <i class="fas fa-file-excel"></i> Exportar a Excel
+                        </button>
+
+
+
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="reportTable" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Identificador</th>
+                                    <th>Descripción</th>
+                                    <th>Estado</th>
+                                    <th>Fecha de Creación</th>
+                                    <th>Usuario de Creación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Identificador</td>
+                                        <td>@item.Descripcion</td>
+                                        <td>@(item.Estado ? "Activo" : "Inactivo")</td>
+                                        <td>@item.FechaCreacion</td>
+                                        <td>@item.UsuarioCreacion</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination" id="pagination"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/js/adminlte.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rowsPerPage = 15; // Número de filas por página
+            const table = document.getElementById('reportTable');
+            const pagination = document.getElementById('pagination');
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            const pageCount = Math.ceil(rows.length / rowsPerPage);
+            let currentPage = 1;
+
+            function showPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                rows.forEach((row, index) => {
+                    row.style.display = index >= start && index < end ? '' : 'none';
+                });
+                currentPage = page;
+                updatePagination();
+            }
+
+            function updatePagination() {
+                pagination.innerHTML = '';
+
+                const buttonPrev = document.createElement('li');
+                buttonPrev.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+                buttonPrev.innerHTML = `<a class="page-link" href="#">Página Anterior</a>`;
+                buttonPrev.addEventListener('click', () => {
+                    if (currentPage > 1) {
+                        showPage(currentPage - 1);
+                    }
+                });
+                pagination.appendChild(buttonPrev);
+
+                for (let i = 1; i <= pageCount; i++) {
+                    const button = document.createElement('li');
+                    button.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                    button.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                    button.addEventListener('click', () => showPage(i));
+                    pagination.appendChild(button);
+                }
+
+                const buttonNext = document.createElement('li');
+                buttonNext.className = `page-item ${currentPage === pageCount ? 'disabled' : ''}`;
+                buttonNext.innerHTML = `<a class="page-link" href="#">Página Siguiente</a>`;
+                buttonNext.addEventListener('click', () => {
+                    if (currentPage < pageCount) {
+                        showPage(currentPage + 1);
+                    }
+                });
+                pagination.appendChild(buttonNext);
+            }
+
+            showPage(1); // Mostrar la primera página inicialmente
+        });
+
+        function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const table = document.getElementById('reportTable');
+            const columns = Array.from(table.querySelectorAll('thead th')).map(th => ({ title: th.textContent, dataKey: th.textContent }));
+            const data = Array.from(table.querySelectorAll('tbody tr')).map(tr => {
+                const cells = tr.querySelectorAll('td');
+                return {
+                    [columns[0].dataKey]: cells[0].textContent,
+                    [columns[1].dataKey]: cells[1].textContent,
+                    [columns[2].dataKey]: cells[2].textContent,
+                    [columns[3].dataKey]: cells[3].textContent,
+                    [columns[4].dataKey]: cells[4].textContent
+                };
+            });
+
+            doc.setFontSize(18);
+            doc.text('SISGESAL', 14, 20);
+
+            // Add logo
+            const img = document.querySelector('img')?.src;
+            if (img) {
+                doc.addImage(img, 'PNG', 150, 10, 50, 30); // Ajusta posición y tamaño según sea necesario
+            }
+
+            // Add date and time
+            doc.setFontSize(12);
+            doc.text('Fecha del Reporte: ' + new Date().toLocaleString(), 14, 50);
+
+            // Add table with pagination
+            const rowsPerPage = 15; // Set rows per page
+            let y = 60; // Initial Y position
+            let pageIndex = 0;
+
+            function addTablePage(data, startIndex) {
+                const endIndex = Math.min(data.length, startIndex + rowsPerPage);
+                const pageData = data.slice(startIndex, endIndex);
+
+                if (pageIndex > 0) {
+                    doc.addPage();
+                }
+
+                doc.autoTable({
+                    startY: y,
+                    head: [columns.map(col => col.title)],
+                    body: pageData.map(item => columns.map(col => item[col.dataKey])),
+                    styles: { overflow: 'linebreak' },
+                    theme: 'striped',
+                    headStyles: { fillColor: [41, 128, 185] },
+                    bodyStyles: { fillColor: [224, 224, 224] },
+                    pageBreak: 'auto',
+                });
+
+                pageIndex++;
+            }
+
+            for (let i = 0; i < data.length; i += rowsPerPage) {
+                addTablePage(data, i);
+            }
+
+            doc.save('report.pdf');
+        }
+
+        function exportToExcel() {
+            const ws = XLSX.utils.table_to_sheet(document.getElementById('reportTable'));
+            const wb = XLSX.utils.book_new();
+
+            XLSX.utils.book_append_sheet(wb, ws, 'Report');
+            XLSX.writeFile(wb, 'report.xlsx');
+        }
+    </script>
+</body>
+</html>

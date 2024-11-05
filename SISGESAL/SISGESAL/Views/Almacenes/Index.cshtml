@@ -1,0 +1,347 @@
+﻿@model IEnumerable<SISGESAL.Models.ViewModels.AlmaceneViewModel>
+
+@{
+    ViewData["Title"] = "Almacenes";
+}
+
+<h1>Gestión de Almacenes</h1>
+
+
+
+<!-- Botón para abrir el modal de creación -->
+<!-- Botón para abrir el modal de creación -->
+
+<button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
+    <i class="fas fa-plus-circle"></i> Crear Almacén
+</button>
+
+<div class="d-flex justify-content-end mb-3">
+    <div class="search-container">
+        <label for="searchInput" class="search-label">
+            <input type="text" id="searchInput" placeholder="Buscar..." class="form-control">
+            <button id="clearSearch" style="display: none;" class="btn btn-secondary ms-2">&times;</button>
+        </label>
+    </div>
+</div>
+
+
+<!-- Tabla de almacenes -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Descripción</th>
+            <th>Fecha Creación</th>
+            <th>Usuario Creación</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var almacene in Model)
+        {
+            <tr>
+                <td>@almacene.Identificador</td>
+                <td>@almacene.Descripcion</td>
+                <td>@almacene.FechaCreacion</td>
+                <td>@almacene.UsuarioCreacion</td>
+                <td>@(almacene.Estado ? "Activo" : "Inactivo")</td>
+                <td>
+                    <!-- Botón de editar con icono -->
+                    <button class="btn btn-primary btn-sm"
+                            data-id="@almacene.Identificador"
+                            data-descripcion="@almacene.Descripcion"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editModal">
+                        <i class="fas fa-edit"></i> <!-- Icono de edición -->
+                    </button>
+
+                    <!-- Botón de activar/desactivar con icono -->
+                    <button class="btn btn-warning btn-sm"
+                            data-id="@almacene.Identificador"
+                            data-status="@almacene.Estado"
+                            data-bs-toggle="modal"
+                            data-bs-target="#statusModal">
+                        @if (almacene.Estado)
+                        {
+                            <i class="fas fa-toggle-on"></i><!-- Icono de desactivar -->
+                        }
+                        else
+                        {
+                            <i class="fas fa-toggle-off"></i> <!-- Icono de activar -->
+                        }
+                    </button>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal de Creación -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Crear Almacén</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="createForm" method="post" action="@Url.Action("Create", "Almacenes")">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="Descripcion">Descripción</label>
+                        <input type="text" class="form-control" id="Descripcion" name="Descripcion" required maxlength="80">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Edición -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar Almacén</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editForm" method="post" action="@Url.Action("Edit", "Almacenes")">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="Identificador" name="Identificador">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="EditDescripcion">Descripción</label>
+                        <input type="text" class="form-control" id="EditDescripcion" name="Descripcion" required maxlength="80">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para cambio de estado -->
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="statusModalLabel">Cambiar Estado</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="statusForm" method="post" action="@Url.Action("ChangeStatus", "Almacenes")">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="StatusId" name="id">
+                <div class="modal-body">
+                    <p id="statusMessage">¿Estás seguro de cambiar el estado?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn" id="statusButton" style="background-color: #ffc107; border-color: #ffc107; color: #212529;">
+                        Cambiar Estado
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="pagination" id="pagination"></div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rowsPerPage = 15; // Número de filas por página
+            const table = document.querySelector('.table');
+            const pagination = document.getElementById('pagination');
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            const pageCount = Math.ceil(rows.length / rowsPerPage);
+
+            function showPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                rows.forEach((row, index) => {
+                    row.style.display = index >= start && index < end ? '' : 'none';
+                });
+                updatePagination(page);
+            }
+
+            function updatePagination(currentPage) {
+                pagination.innerHTML = '';
+                const paginationList = document.createElement('ul');
+                paginationList.className = 'pagination';
+
+                // Página anterior
+                if (currentPage > 1) {
+                    const prevItem = document.createElement('li');
+                    prevItem.className = 'page-item';
+                    prevItem.innerHTML = '<a class="page-link" href="#" data-page="' + (currentPage - 1) + '">Página Anterior</a>';
+                    paginationList.appendChild(prevItem);
+                } else {
+                    const prevItem = document.createElement('li');
+                    prevItem.className = 'page-item disabled';
+                    prevItem.innerHTML = '<span class="page-link">Página Anterior</span>';
+                    paginationList.appendChild(prevItem);
+                }
+
+                // Botones de páginas
+                for (let i = 1; i <= pageCount; i++) {
+                    const pageItem = document.createElement('li');
+                    pageItem.className = 'page-item' + (i === currentPage ? ' active' : '');
+                    pageItem.innerHTML = '<a class="page-link" href="#" data-page="' + i + '">' + i + '</a>';
+                    paginationList.appendChild(pageItem);
+                }
+
+                // Página siguiente
+                if (currentPage < pageCount) {
+                    const nextItem = document.createElement('li');
+                    nextItem.className = 'page-item';
+                    nextItem.innerHTML = '<a class="page-link" href="#" data-page="' + (currentPage + 1) + '">Página Siguiente</a>';
+                    paginationList.appendChild(nextItem);
+                } else {
+                    const nextItem = document.createElement('li');
+                    nextItem.className = 'page-item disabled';
+                    nextItem.innerHTML = '<span class="page-link">Página Siguiente</span>';
+                    paginationList.appendChild(nextItem);
+                }
+
+                pagination.appendChild(paginationList);
+
+                // Adjuntar evento de clic a los enlaces de paginación
+                pagination.querySelectorAll('.page-link').forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const page = parseInt(this.getAttribute('data-page'));
+                        showPage(page);
+                    });
+                });
+            }
+
+            showPage(1); // Mostrar la primera página inicialmente
+        });
+
+
+        $(document).ready(function () {
+            // Manejo del formulario de crear almacén
+            $('#createForm').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            setTimeout(function () {
+                                location.reload(); // Recargar la página para mostrar los cambios
+                            }, 1500);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Error al crear el almacén.');
+                    }
+                });
+            });
+
+            // Manejo del formulario de editar almacén
+            $('#editForm').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            setTimeout(function () {
+                                location.reload(); // Recargar la página para mostrar los cambios
+                            }, 1500);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Error al editar el almacén.');
+                    }
+                });
+            });
+
+            // Cargar datos para el modal de edición
+            $('#editModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var descripcion = button.data('descripcion');
+                var modal = $(this);
+
+                modal.find('#Identificador').val(id);
+                modal.find('#EditDescripcion').val(descripcion);
+            });
+
+            // Cargar datos para el modal de cambio de estado
+            $('#statusModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var estado = button.data('estado');
+                var statusMessage = estado ? 'Desactivar' : 'Activar';
+
+                $(this).find('#StatusId').val(id);
+                $(this).find('#statusMessage').text(`¿Estás seguro de cambiar el estado del almacén?`);
+                $('#statusButton').toggleClass('btn-warning btn-success', !estado);
+                $('#statusButton').text(statusMessage);
+            });
+
+            // Manejo del formulario de cambio de estado
+            $('#statusForm').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            setTimeout(function () {
+                                location.reload(); // Recargar la página para mostrar los cambios
+                            }, 1500);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Error al cambiar el estado.');
+                    }
+                });
+            });
+
+
+            // Filtro de búsqueda
+            document.getElementById('searchInput').addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+                const rows = Array.from(document.querySelectorAll('.table tbody tr'));
+                rows.forEach(row => {
+                    const cells = Array.from(row.querySelectorAll('td'));
+                    const isVisible = cells.some(cell => cell.textContent.toLowerCase().includes(searchTerm));
+                    row.style.display = isVisible ? '' : 'none';
+                });
+                // Actualizar la paginación después del filtrado
+                showPage(1); // Regresar a la primera página después de filtrar
+            });
+
+        });
+
+
+
+    </script>
+}

@@ -1,0 +1,36 @@
+﻿/* Barra de Navegación (Navbar) */
+.main-header {
+    background-color: #3399ff; /* Azul medio */
+}
+
+
+
+
+/* Botones y Enlaces Activos */
+.btn-primary {
+    background-color: #3399ff; /* Azul medio */
+    border-color: #007bff; /* Azul más oscuro para el borde */
+    color: #000000; /* Texto negro en los botones */
+}
+
+    .btn-primary:hover {
+        background-color: #007bff; /* Azul más oscuro para el hover */
+        border-color: #0056b3; /* Azul aún más oscuro para el borde en hover */
+        color: #000000; /* Texto negro en los botones durante el hover */
+    }
+
+.nav-link.active {
+    background-color: #3399ff; /* Azul medio para el enlace activo */
+    color: #000000; /* Texto negro */
+}
+
+/* Bordes y Sombras */
+.card {
+    border: 1px solid #e0e0e0; /* Gris claro */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.form-control:focus {
+    border-color: #3399ff; /* Azul medio para el borde de los campos de entrada */
+    box-shadow: 0 0 0 0.2rem rgba(51, 153, 255, 0.25); /* Sombra azul media para el campo de entrada */
+}

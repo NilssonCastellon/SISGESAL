@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - SISGESAL</title>
+    <link rel="stylesheet" href="~/path/to/your/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .header h1 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+        .btn-export {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+            .btn-export button {
+                border: none;
+                color: #fff;
+                padding: 10px 20px;
+                font-size: 16px;
+                margin: 5px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+        .btn-pdf {
+            background-color: #dc3545; /* Rojo */
+        }
+
+        .btn-excel {
+            background-color: #28a745; /* Verde */
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .table th, .table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            .table th {
+                background-color: #f2f2f2;
+            }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+            .pagination .page-item {
+                display: inline;
+            }
+
+            .pagination .page-link {
+                border-radius: 0.25rem;
+                padding: 0.5rem 0.75rem;
+                margin: 0 0.125rem;
+                border: 1px solid #dee2e6;
+                color: #007bff;
+                text-align: center;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            .pagination .page-item.active .page-link {
+                background-color: #007bff;
+                color: #fff;
+                border-color: #007bff;
+            }
+
+            .pagination .page-link:hover {
+                background-color: #e9ecef;
+                border-color: #dee2e6;
+            }
+
+            .pagination .page-link.disabled {
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
+    </style>
+</head>
+<body>
+        <h2>Reportes Artículos</h2>
+
+
+    <div class="btn-export">
+        <!-- Botón para Exportar a PDF -->
+        <button class="btn btn-pdf" onclick="exportToPDF()">
+            <i class="fas fa-file-pdf"></i> Exportar a PDF
+        </button>
+
+        <!-- Botón para Exportar a Excel -->
+        <button class="btn btn-excel" onclick="exportToExcel()">
+            <i class="fas fa-file-excel"></i> Exportar a Excel
+        </button>
+
+    </div>
+
+    <table id="reportTable" class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Tipo</th>
+                <th>Punto Mínimo</th>
+                <th>Punto Máximo</th>
+                <th>Punto Reorden</th>
+                <th>Usuario Creación</th>
+                <th>Fecha Creación</th>
+                <th>Estado</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @for (int counter = 1; counter <= Model.Count; counter++)
+            {
+                var articulo = Model[counter - 1];
+                <tr>
+                    <td>@counter</td>
+                    <td>@articulo.CodigoArticulo</td>
+                    <td>@articulo.DescripcionArticulo</td>
+                    <td>@articulo.TipoArticulo</td>
+                    <td>@articulo.PuntoMinimo</td>
+                    <td>@articulo.PuntoMaximo</td>
+                    <td>@articulo.PuntoReorden</td>
+                    <td>@articulo.UsuarioCreacion</td>
+                    <td>@articulo.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                    <td>@(articulo.Estado ? "Activo" : "Inactivo")</td>
+                  
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <div class="pagination" id="pagination"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rowsPerPage = 15; // Número de filas por página
+            const table = document.getElementById('reportTable');
+            const pagination = document.getElementById('pagination');
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            const pageCount = Math.ceil(rows.length / rowsPerPage);
+
+            function showPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                rows.forEach((row, index) => {
+                    row.style.display = index >= start && index < end ? '' : 'none';
+                });
+                updatePagination(page);
+            }
+
+            function updatePagination(currentPage) {
+                pagination.innerHTML = '';
+                const paginationList = document.createElement('ul');
+                paginationList.className = 'pagination';
+
+                if (currentPage > 1) {
+                    const prevItem = document.createElement('li');
+                    prevItem.className = 'page-item';
+                    prevItem.innerHTML = '<a class="page-link" href="#" data-page="' + (currentPage - 1) + '">Página Anterior</a>';
+                    paginationList.appendChild(prevItem);
+                } else {
+                    const prevItem = document.createElement('li');
+                    prevItem.className = 'page-item disabled';
+                    prevItem.innerHTML = '<span class="page-link">Página Anterior</span>';
+                    paginationList.appendChild(prevItem);
+                }
+
+                for (let i = 1; i <= pageCount; i++) {
+                    const pageItem = document.createElement('li');
+                    pageItem.className = 'page-item' + (i === currentPage ? ' active' : '');
+                    pageItem.innerHTML = '<a class="page-link" href="#" data-page="' + i + '">' + i + '</a>';
+                    paginationList.appendChild(pageItem);
+                }
+
+                if (currentPage < pageCount) {
+                    const nextItem = document.createElement('li');
+                    nextItem.className = 'page-item';
+                    nextItem.innerHTML = '<a class="page-link" href="#" data-page="' + (currentPage + 1) + '">Página Siguiente</a>';
+                    paginationList.appendChild(nextItem);
+                } else {
+                    const nextItem = document.createElement('li');
+                    nextItem.className = 'page-item disabled';
+                    nextItem.innerHTML = '<span class="page-link">Página Siguiente</span>';
+                    paginationList.appendChild(nextItem);
+                }
+
+                pagination.appendChild(paginationList);
+
+                // Attach click event to pagination links
+                pagination.querySelectorAll('.page-link').forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const page = parseInt(this.getAttribute('data-page'));
+                        showPage(page);
+                    });
+                });
+            }
+
+            showPage(1); // Show the first page initially
+        });
+
+function exportToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('landscape'); // Configura la orientación horizontal
+    const table = document.getElementById('reportTable');
+
+    if (!table) {
+        alert('Table with id "reportTable" not found.');
+        return;
+    }
+
+    const columns = Array.from(table.querySelectorAll('thead th')).map(th => ({
+        title: th.textContent.trim(),
+        dataKey: th.textContent.trim()
+    }));
+
+    const data = Array.from(table.querySelectorAll('tbody tr')).map(tr => {
+        const cells = tr.querySelectorAll('td');
+        return {
+            [columns[0].dataKey]: cells[0]?.textContent.trim() || '',
+            [columns[1].dataKey]: cells[1]?.textContent.trim() || '',
+            [columns[2].dataKey]: cells[2]?.textContent.trim() || '',
+            [columns[3].dataKey]: cells[3]?.textContent.trim() || '',
+            [columns[4].dataKey]: cells[4]?.textContent.trim() || '',
+            [columns[5].dataKey]: cells[5]?.textContent.trim() || '',
+            [columns[6].dataKey]: cells[6]?.textContent.trim() || '',
+            [columns[7].dataKey]: cells[7]?.textContent.trim() || '',
+            [columns[8].dataKey]: cells[8]?.textContent.trim() || '',
+            [columns[9].dataKey]: cells[9]?.textContent.trim() || ''
+        };
+    });
+
+    doc.setFontSize(18);
+    doc.text('SISGESAL', 14, 20);
+
+    // Agregar imagen al encabezado
+    const img = document.querySelector('img')?.src;
+    if (img) {
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const imgWidth = 30; // Ancho de la imagen
+        const imgHeight = 20; // Alto de la imagen
+        doc.addImage(img, 'PNG', pageWidth - imgWidth - 10, 10, imgWidth, imgHeight); // Ajusta posición y tamaño del logo
+    }
+
+    // Agregar fecha y hora
+    doc.setFontSize(12);
+    doc.text('Fecha del Reporte: ' + new Date().toLocaleString(), 14, 50);
+
+    // Añadir tabla con paginación
+    const rowsPerPage = 15; // Número de filas por página
+    let y = 60; // Posición inicial en Y
+    let pageIndex = 0;
+
+    function addTablePage(data, startIndex) {
+        const endIndex = Math.min(data.length, startIndex + rowsPerPage);
+        const pageData = data.slice(startIndex, endIndex);
+
+        if (pageIndex > 0) {
+            doc.addPage();
+        }
+
+        doc.autoTable({
+            startY: y,
+            head: [columns.map(col => col.title)],
+            body: pageData.map(item => columns.map(col => item[col.dataKey])),
+            styles: { overflow: 'linebreak' },
+            theme: 'striped',
+            headStyles: { fillColor: [41, 128, 185] },
+            bodyStyles: { fillColor: [224, 224, 224] },
+            pageBreak: 'auto'
+        });
+
+        pageIndex++;
+    }
+
+    for (let i = 0; i < data.length; i += rowsPerPage) {
+        addTablePage(data, i);
+    }
+
+    doc.save('report.pdf');
+}
+
+        function exportToExcel() {
+            const ws = XLSX.utils.table_to_sheet(document.getElementById('reportTable'));
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Artículos');
+            XLSX.writeFile(wb, 'report.xlsx');
+        }
+    </script>
+</body>
+</html>

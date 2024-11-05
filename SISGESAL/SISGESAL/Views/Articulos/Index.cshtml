@@ -1,0 +1,441 @@
+﻿@model IEnumerable<SISGESAL.Models.ViewModels.ArticuloViewModel>
+
+@{
+    ViewData["Title"] = "Artículos";
+}
+
+<h1>Gestión de Artículos</h1>
+
+@if (ViewBag.AlmacenMessage != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.AlmacenMessage
+    </div>
+}
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+    <i class="fas fa-plus-circle"></i> Crear Artículo
+</button>
+
+<div class="d-flex justify-content-end mb-3">
+    <div class="search-container">
+        <label for="searchInput" class="search-label">
+            <input type="text" id="searchInput" placeholder="Buscar..." class="form-control">
+            <button id="clearSearch" style="display: none;" class="btn btn-secondary ms-2">&times;</button>
+        </label>
+    </div>
+</div>
+
+
+
+<table id="articulosTable" class="table">
+    <thead>
+        <tr>
+            <th>#</th> <!-- Nueva columna para el número secuencial -->
+            <th>Código</th>
+            <th>Descripción</th>
+            <th>Tipo</th>
+            <th>Stock Mínimo</th>
+            <th>Stock Máximo</th>
+            <th>Existencias</th>
+            <th>Usuario Creación</th>
+            <th>Fecha Creación</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int counter = 1; counter <= Model.Count(); counter++) // Inicializa el contador y usa un bucle for
+        {
+            var articulo = Model.ElementAt(counter - 1); // Obtiene el artículo correspondiente
+            <tr>
+                <td>@counter</td>
+                <td>@articulo.CodigoArticulo</td>
+                <td>@articulo.DescripcionArticulo</td>
+                <td>@articulo.TipoArticulo</td>
+                <td>@articulo.PuntoMinimo</td>
+                <td>@articulo.PuntoMaximo</td>
+                <td>@articulo.PuntoReorden</td>
+                <td>@articulo.UsuarioCreacion</td>
+                <td>@articulo.FechaCreacion</td>
+                <td>@(articulo.Estado ? "Activo" : "Inactivo")</td>
+                <td>
+                    <!-- Botón para Editar -->
+                    <button class="btn btn-primary btn-sm" data-id="@articulo.IdentificadorArticulo" data-codigo="@articulo.CodigoArticulo" data-descripcion="@articulo.DescripcionArticulo" data-tipo="@articulo.TipoArticulo" data-punto-minimo="@articulo.PuntoMinimo" data-punto-maximo="@articulo.PuntoMaximo" data-punto-reorden="@articulo.PuntoReorden" data-bs-toggle="modal" data-bs-target="#editModal">
+                          <i class="fas fa-edit"></i> <!-- Icono de edición -->
+                    </button>
+
+                    <!-- Botón para Cambiar Estado -->
+                    <button class="btn btn-warning btn-sm change-status" data-id="@articulo.IdentificadorArticulo" data-status="@articulo.Estado" data-bs-toggle="modal" data-bs-target="#statusModal">
+                        @if (articulo.Estado)
+                        {
+                            <i class="fas fa-toggle-on"></i>
+
+                            <!-- Icono de desactivar -->
+                        }
+                        else
+                        {
+                            <i class="fas fa-toggle-off"></i> <!-- Icono de activar -->
+                        }
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Crear Artículo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm" method="post" action="@Url.Action("Create", "Articulos")" onsubmit="return handleCreateSubmit()">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label for="CodigoArticulo" class="form-label">Código</label>
+                        <input type="number" class="form-control" id="CodigoArticulo" name="CodigoArticulo" required min="0" max="999999999" title="El código debe contener hasta 9 dígitos.">
+                    </div>
+                    <div class="mb-3">
+                        <label for="DescripcionArticulo" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="DescripcionArticulo" name="DescripcionArticulo" required maxlength="100">
+                    </div>
+                    <div class="mb-3">
+                        <label for="TipoArticulo" class="form-label">Tipo</label>
+                        <input type="text" class="form-control" id="TipoArticulo" name="TipoArticulo" required maxlength="80">
+                    </div>
+                    <div class="mb-3">
+                        <label for="PuntoMinimo" class="form-label">Punto Mínimo</label>
+                        <input type="number" class="form-control" id="PuntoMinimo" name="PuntoMinimo" required maxlength="8">
+                    </div>
+                    <div class="mb-3">
+                        <label for="PuntoMaximo" class="form-label">Punto Máximo</label>
+                        <input type="number" class="form-control" id="PuntoMaximo" name="PuntoMaximo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="PuntoReorden" class="form-label">Punto de Reorden</label>
+                        <input type="number" class="form-control" id="PuntoReorden" name="PuntoReorden">
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar Artículo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" method="post" action="@Url.Action("Edit", "Articulos")" onsubmit="return handleEditSubmit()">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="IdentificadorArticulo" name="IdentificadorArticulo">
+                    <div class="mb-3">
+                        <label for="CodigoArticulo" class="form-label">Código</label>
+                        <input type="number" class="form-control" id="CodigoArticulo" name="CodigoArticulo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="DescripcionArticulo" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="DescripcionArticulo" name="DescripcionArticulo" required maxlength="100">
+                    </div>
+                    <div class="mb-3">
+                        <label for="TipoArticulo" class="form-label">Tipo</label>
+                        <input type="text" class="form-control" id="TipoArticulo" name="TipoArticulo" required maxlength="100">
+                    </div>
+                    <div class="mb-3">
+                        <label for="PuntoMinimo" class="form-label">Punto Mínimo</label>
+                        <input type="number" class="form-control" id="PuntoMinimo" name="PuntoMinimo" step="any" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="PuntoMaximo" class="form-label">Punto Máximo</label>
+                        <input type="number" class="form-control" id="PuntoMaximo" name="PuntoMaximo" step="any" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="PuntoReorden" class="form-label">Punto de Reorden</label>
+                        <input type="number" class="form-control" id="PuntoReorden" name="PuntoReorden" step="any" required>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para cambio de estado -->
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="statusModalLabel">Cambiar Estado</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="statusForm" method="post" action="@Url.Action("ChangeStatus", "Articulos")">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="StatusId" name="id">
+                <div class="modal-body">
+                    <p id="statusMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn" id="statusButton" style="background-color: #ffc107; border-color: #ffc107; color: #212529;">
+                           Cambiar Estado
+                    </button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="pagination" id="pagination"></div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Enlazar toastr CSS -->
+    <link rel="stylesheet" href="ruta/a/tu/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <!-- Enlazar toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+   
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rowsPerPage = 15; // Número de filas por página
+            const table = document.querySelector('.table');
+            const pagination = document.getElementById('pagination');
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            const pageCount = Math.ceil(rows.length / rowsPerPage);
+            const searchInput = document.getElementById('searchInput');
+            const clearSearch = document.getElementById('clearSearch');
+
+            function showPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                rows.forEach((row, index) => {
+                    row.style.display = index >= start && index < end ? '' : 'none';
+                });
+                updatePagination(page);
+            }
+
+            function updatePagination(currentPage) {
+                pagination.innerHTML = '';
+                const paginationList = document.createElement('ul');
+                paginationList.className = 'pagination';
+
+                // Página anterior
+                if (currentPage > 1) {
+                    const prevItem = document.createElement('li');
+                    prevItem.className = 'page-item';
+                    prevItem.innerHTML = '<a class="page-link" href="#" data-page="' + (currentPage - 1) + '">Página Anterior</a>';
+                    paginationList.appendChild(prevItem);
+                } else {
+                    const prevItem = document.createElement('li');
+                    prevItem.className = 'page-item disabled';
+                    prevItem.innerHTML = '<span class="page-link">Página Anterior</span>';
+                    paginationList.appendChild(prevItem);
+                }
+
+                // Botones de páginas
+                for (let i = 1; i <= pageCount; i++) {
+                    const pageItem = document.createElement('li');
+                    pageItem.className = 'page-item' + (i === currentPage ? ' active' : '');
+                    pageItem.innerHTML = '<a class="page-link" href="#" data-page="' + i + '">' + i + '</a>';
+                    paginationList.appendChild(pageItem);
+                }
+
+                // Página siguiente
+                if (currentPage < pageCount) {
+                    const nextItem = document.createElement('li');
+                    nextItem.className = 'page-item';
+                    nextItem.innerHTML = '<a class="page-link" href="#" data-page="' + (currentPage + 1) + '">Página Siguiente</a>';
+                    paginationList.appendChild(nextItem);
+                } else {
+                    const nextItem = document.createElement('li');
+                    nextItem.className = 'page-item disabled';
+                    nextItem.innerHTML = '<span class="page-link">Página Siguiente</span>';
+                    paginationList.appendChild(nextItem);
+                }
+
+                pagination.appendChild(paginationList);
+
+                // Adjuntar evento de clic a los enlaces de paginación
+                pagination.querySelectorAll('.page-link').forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const page = parseInt(this.getAttribute('data-page'));
+                        showPage(page);
+                    });
+                });
+            }
+
+            function filterRows() {
+                const query = searchInput.value.toLowerCase();
+                const filteredRows = rows.filter(row => {
+                    const cells = Array.from(row.querySelectorAll('td'));
+                    return cells.some(cell => cell.textContent.toLowerCase().includes(query));
+                });
+
+                // Actualizar el conteo de páginas
+                const filteredPageCount = Math.ceil(filteredRows.length / rowsPerPage);
+                // Mostrar la primera página
+                showPage(1);
+
+                // Filtrar las filas visibles en función del texto de búsqueda
+                rows.forEach(row => {
+                    row.style.display = filteredRows.includes(row) ? '' : 'none';
+                });
+
+                updatePagination(1); // Actualizar la paginación según los resultados filtrados
+
+                // Mostrar u ocultar el botón de limpiar
+                clearSearch.style.display = query ? 'block' : 'none';
+            }
+
+            // Manejar la entrada de búsqueda
+            searchInput.addEventListener('input', filterRows);
+
+            // Manejar el clic en el botón de limpiar
+            clearSearch.addEventListener('click', function () {
+                searchInput.value = '';
+                filterRows();
+            });
+
+            // Inicializar la vista de la primera página
+            showPage(1);
+        });
+
+        $(document).ready(function () {
+            // Manejo del formulario de crear artículo
+            $('#createForm').submit(function (event) {
+                event.preventDefault(); // Prevenir el envío normal del formulario
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success('Artículo creado con éxito.');
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            toastr.error('Error al crear el artículo.');
+                            if (response.errors) {
+                                response.errors.forEach(function (error) {
+                                    toastr.error(error);
+                                });
+                            }
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Error al crear el artículo.');
+                    }
+                });
+            });
+
+            // Manejo del formulario de editar artículo
+            $('#editForm').submit(function (event) {
+                event.preventDefault(); // Prevenir el envío normal del formulario
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success('Artículo editado con éxito.');
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            toastr.error('Error al editar el artículo.');
+                            if (response.errors) {
+                                response.errors.forEach(function (error) {
+                                    toastr.error(error);
+                                });
+                            }
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Error al editar el artículo.');
+                    }
+                });
+            });
+
+            // Para editar un artículo
+            $('#editModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Botón que abrió el modal
+                var id = button.data('id');
+                var codigo = button.data('codigo');
+                var descripcion = button.data('descripcion');
+                var tipo = button.data('tipo');
+                var puntoMinimo = button.data('punto-minimo');
+                var puntoMaximo = button.data('punto-maximo');
+                var puntoReorden = button.data('punto-reorden');
+                var modal = $(this);
+
+                modal.find('#IdentificadorArticulo').val(id);
+                modal.find('#CodigoArticulo').val(codigo);
+                modal.find('#DescripcionArticulo').val(descripcion);
+                modal.find('#TipoArticulo').val(tipo);
+                modal.find('#PuntoMinimo').val(puntoMinimo);
+                modal.find('#PuntoMaximo').val(puntoMaximo);
+                modal.find('#PuntoReorden').val(puntoReorden);
+            });
+
+            $('#statusForm').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            setTimeout(function () {
+                                location.reload(); // Recargar la página para mostrar los cambios
+                            }, 1500);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Error al cambiar el estado.');
+                    }
+                });
+            });
+
+            // Para cambiar el estado
+            $('.change-status').on('click', function () {
+                var button = $(this);
+                var id = button.data('id');
+                var status = button.data('status');
+                var statusMessage = status ? 'Desactivar' : 'Activar';
+
+                $('#statusModal').find('#StatusId').val(id);
+                $('#statusModal').find('#statusMessage').text(`¿Estás seguro de ${statusMessage} este artículo?`);
+                $('#statusModal').find('#statusButton').toggleClass('btn-warning btn-success', !status);
+                $('#statusModal').find('#statusButton').text(status ? 'Desactivar' : 'Activar');
+            });
+        });
+
+    </script>
+}

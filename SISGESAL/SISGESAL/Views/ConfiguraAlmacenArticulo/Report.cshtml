@@ -1,0 +1,246 @@
+﻿@model IEnumerable<SISGESAL.Models.ViewModels.ConfiguraAlmacenArticuloViewModel>
+
+@{
+    ViewData["Title"] = "Reportes Configuración Almacén y Artículo";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - SISGESAL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        .btn-export {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+            .btn-export button {
+                border: none;
+                color: #fff;
+                padding: 10px 20px;
+                font-size: 16px;
+                margin: 5px;
+                border-radius: 5px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+            }
+
+            .btn-export i {
+                margin-right: 8px;
+            }
+
+        .btn-pdf {
+            background-color: #dc3545; /* Rojo */
+        }
+
+        .btn-excel {
+            background-color: #28a745; /* Verde */
+        }
+    </style>
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="btn-export">
+        <button class="btn-pdf" onclick="exportToPDF()">
+            <i class="fas fa-file-pdf"></i> Exportar a PDF
+        </button>
+        <button class="btn-excel" onclick="exportToExcel()">
+            <i class="fas fa-file-excel"></i> Exportar a Excel
+        </button>
+    </div>
+
+    <table id="reportTable" class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Almacén</th>
+                <th>Artículo</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int contador = 1; // Inicializa el contador
+            }
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@contador</td>
+                    <td>@item.AlmacenDescripcion</td>
+                    <td>@item.ArticuloDescripcion</td>
+                    <td>@(item.Estado.HasValue ? (item.Estado.Value ? "Activo" : "Inactivo") : "Desconocido")</td>
+                </tr>
+                contador++;
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination" id="pagination"></div>
+
+    </div>
+    @section Scripts {
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Configuración de paginación
+            const rowsPerPage = 15; // Número de filas por página
+            const table = document.getElementById('reportTable');
+            const pagination = document.getElementById('pagination');
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            const pageCount = Math.ceil(rows.length / rowsPerPage);
+            let currentPage = 1;
+
+            function showPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                rows.forEach((row, index) => {
+                    row.style.display = index >= start && index < end ? '' : 'none';
+                });
+                currentPage = page;
+                updatePagination();
+            }
+
+            function updatePagination() {
+                pagination.innerHTML = '';
+
+                const buttonPrev = document.createElement('li');
+                buttonPrev.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+                buttonPrev.innerHTML = `<a class="page-link" href="#">Anterior</a>`;
+                buttonPrev.addEventListener('click', () => {
+                    if (currentPage > 1) {
+                        showPage(currentPage - 1);
+                    }
+                });
+                pagination.appendChild(buttonPrev);
+
+                for (let i = 1; i <= pageCount; i++) {
+                    const button = document.createElement('li');
+                    button.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                    button.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                    button.addEventListener('click', () => showPage(i));
+                    pagination.appendChild(button);
+                }
+
+                const buttonNext = document.createElement('li');
+                buttonNext.className = `page-item ${currentPage === pageCount ? 'disabled' : ''}`;
+                buttonNext.innerHTML = `<a class="page-link" href="#">Siguiente</a>`;
+                buttonNext.addEventListener('click', () => {
+                    if (currentPage < pageCount) {
+                        showPage(currentPage + 1);
+                    }
+                });
+                pagination.appendChild(buttonNext);
+            }
+
+            showPage(1); // Mostrar la primera página inicialmente
+
+            function exportToPDF() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF(); // Configura la orientación vertical
+                const table = document.getElementById('reportTable');
+
+                const columns = Array.from(table.querySelectorAll('thead th')).map(th => ({
+                    title: th.textContent.trim(),
+                    dataKey: th.textContent.trim()
+                }));
+
+                const data = Array.from(table.querySelectorAll('tbody tr')).map(tr => {
+                    const cells = tr.querySelectorAll('td');
+                    return {
+                        [columns[0].dataKey]: cells[0]?.textContent.trim() || '',
+                        [columns[1].dataKey]: cells[1]?.textContent.trim() || '',
+                        [columns[2].dataKey]: cells[2]?.textContent.trim() || '',
+                        [columns[3].dataKey]: cells[3]?.textContent.trim() || ''
+                    };
+                });
+
+                // Configura la fuente y el título
+                doc.setFontSize(18);
+                doc.text('Reportes - Configuración de Almacenes y Artículos', 14, 20);
+
+                // Añadir imagen al encabezado
+                const img = document.querySelector('img')?.src;
+                if (img) {
+                    const pageWidth = doc.internal.pageSize.getWidth();
+                    const imgWidth = 30; // Ancho de la imagen
+                    const imgHeight = 20; // Alto de la imagen
+                    doc.addImage(img, 'PNG', pageWidth - imgWidth - 10, 10, imgWidth, imgHeight); // Ajusta posición y tamaño del logo
+                }
+
+                // Añadir fecha y hora
+                doc.setFontSize(12);
+                doc.text('Fecha del Reporte: ' + new Date().toLocaleDateString(), 14, 30); // Fecha más arriba
+                doc.text('Hora del Reporte: ' + new Date().toLocaleTimeString(), 14, 40); // Hora
+
+                // Añadir tabla con paginación
+                const rowsPerPage = 15; // Número de filas por página
+                let y = 50; // Posición inicial en Y
+                let pageIndex = 0;
+
+                function addTablePage(data, startIndex) {
+                    const endIndex = Math.min(data.length, startIndex + rowsPerPage);
+                    const pageData = data.slice(startIndex, endIndex);
+
+                    if (pageIndex > 0) {
+                        doc.addPage();
+                    }
+
+                    doc.autoTable({
+                        startY: y,
+                        head: [columns.map(col => col.title)],
+                        body: pageData.map(item => columns.map(col => item[col.dataKey])),
+                        styles: { overflow: 'linebreak' },
+                        theme: 'striped',
+                        headStyles: { fillColor: [41, 128, 185] },
+                        bodyStyles: { fillColor: [224, 224, 224] },
+                        pageBreak: 'auto'
+                    });
+
+                    pageIndex++;
+                }
+
+                for (let i = 0; i < data.length; i += rowsPerPage) {
+                    addTablePage(data, i);
+                }
+
+                doc.save('Configuracion_Almacen_Articulo.pdf');
+            }
+
+            function exportToExcel() {
+                const ws = XLSX.utils.table_to_sheet(document.getElementById('reportTable'));
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Configuración de Almacén Artículo');
+
+                // Add header to the worksheet
+                const header = [
+                    ['Reportes - Configuración de Almacenes y Artículos', 'Fecha: ' + new Date().toLocaleDateString() + ' Hora: ' + new Date().toLocaleTimeString()]
+                ];
+                XLSX.utils.sheet_add_aoa(ws, header, { origin: 'A1' });
+
+                // Adjust column widths
+                ws['!cols'] = [{ width: 10 }, { width: 25 }, { width: 25 }, { width: 15 }];
+
+                XLSX.writeFile(wb, 'Configuracion_Almacen_Articulo.xlsx');
+            }
+
+            window.exportToPDF = exportToPDF;
+            window.exportToExcel = exportToExcel;
+        });
+    </script>
+	}
+</body>
+</html>
+
+

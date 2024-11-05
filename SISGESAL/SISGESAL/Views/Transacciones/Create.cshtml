@@ -1,0 +1,400 @@
+﻿@model SISGESAL.Models.ViewModels.TransaccionViewModel
+
+@{
+    ViewData["Title"] = "Crear Transacción";
+}
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+<!-- Formulario para crear una nueva transacción -->
+<form asp-action="Create" method="post" id="transaccionForm">
+    @Html.AntiForgeryToken()
+    <div class="container">
+
+        <!-- Sección General de la Transacción -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Ningresos" class="form-label">Número de Ingresos</label>
+                <input asp-for="Ningresos" class="form-control" id="Ningresos" readonly />
+                <span asp-validation-for="Ningresos" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label>Almacén Asignado:</label>
+                <input type="text" class="form-control" value="@Model.AlmacenPredeterminado?.Descripcion" readonly />
+                <input type="hidden" asp-for="CodigoAlmacen" value="@Model.AlmacenPredeterminado?.Identificador" />
+            </div>
+
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="Nrequisicion">Número de Requisición</label>
+                <input type="text" id="Nrequisicion" name="Nrequisicion" class="form-control" value="@Model.Nrequisicion" readonly />
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="FechaRequisicion" class="form-label">Fecha Requisición</label>
+                <input asp-for="FechaRequisicion" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="FechaRequisicion" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Operacion" class="form-label">Operación</label>
+                <select asp-for="Operacion" class="form-select" id="operacionSelect">
+                    <option value="" disabled selected>Elegir opción</option>
+                    <option value="Ingreso">Ingreso</option>
+                    <option value="Salida">Salida</option>
+                </select>
+                <span asp-validation-for="Operacion" class="text-danger"></span>
+            </div>
+
+
+            <div class="col-md-6">
+                <label asp-for="FechaIngreso" class="form-label">Fecha Ingreso</label>
+                <input asp-for="FechaIngreso" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
+                <span asp-validation-for="FechaIngreso" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Observacion" class="form-label">Observación</label>
+            <textarea asp-for="Observacion" class="form-control"></textarea>
+            <span asp-validation-for="Observacion" class="text-danger"></span>
+        </div>
+
+        
+
+        <!-- Tabla de Artículos -->
+        <h4>Detalles de Transacción</h4>
+
+        <!-- Botón para buscar artículos -->
+        <div class="mb-3">
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#buscarArticulosModal">
+                Buscar Artículos
+            </button>
+        </div>
+        <!-- Tabla Detalles -->
+        <table id="articulosTable" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th id="encabezadoOperacion">Operación</th>
+                    <th>Precio Unitario</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="articulosTableBody">
+                <!-- Aquí se agregarán los artículos seleccionados -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-end">Total</td>
+                    <td id="totalSum">0</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- Modal para buscar y seleccionar artículos -->
+        <div class="modal fade" id="buscarArticulosModal" tabindex="-1" aria-labelledby="buscarArticulosLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="buscarArticulosLabel">Buscar Artículos</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Buscador de artículos -->
+                        <input type="text" id="articuloSearch" class="form-control mb-3" placeholder="Buscar artículo..." onkeyup="filterArticulos()" />
+
+                        <!-- Lista de artículos -->
+                        <table id="articulosModalTable" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 1%; text-align: center;">Seleccionar</th>
+                                    <th>Código</th>
+                                    <th>Descripción</th>
+                                    <th>Existencias</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var articulo in Model.Articulos.Where(a => a.Estado && a.CodigoAlmacen == Model.CodigoAlmacen))
+                                {
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <input type="checkbox" class="form-check-input" id="articuloModal_@articulo.IdentificadorArticulo" value="@articulo.IdentificadorArticulo" />
+                                        </td>
+                                        <td>@articulo.CodigoArticulo</td>
+                                        <td>@articulo.DescripcionArticulo</td>
+                                        <td>@articulo.PuntoReorden</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <!-- Paginación -->
+                        <div id="pagination" class="mt-3"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="agregarArticulosBtn">Agregar Artículos</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+       @*  <!-- Botón para abrir el modal de búsqueda de artículos -->
+        <button type="button" class="btn mb-3" style="background-color: #28a745; border-color: #28a745; color: white;" data-bs-toggle="modal" data-bs-target="#buscarArticulosModal">
+            Buscar Artículos
+        </button> *@
+
+
+        <!-- Botones de acción -->
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <!-- Toastr CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+   
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Referencias al select y al encabezado
+            const operacionSelect = document.getElementById("operacionSelect");
+            const encabezadoOperacion = document.getElementById("encabezadoOperacion");
+
+            // Función para actualizar el encabezado
+            function actualizarEncabezado() {
+                const seleccion = operacionSelect.value;
+                console.log("Seleccion actual:", seleccion); // Mensaje de prueba en consola
+                if (seleccion === "Ingreso") {
+                    encabezadoOperacion.textContent = "Entrada";
+                } else if (seleccion === "Salida") {
+                    encabezadoOperacion.textContent = "Salida";
+                } else {
+                    encabezadoOperacion.textContent = "Operación";  // Texto predeterminado
+                }
+            }
+
+            // Llamar la función cuando el select cambie
+            operacionSelect.addEventListener("change", actualizarEncabezado);
+
+            // Prueba al cargar la página
+            console.log("Script cargado y listo para funcionar."); // Verifica que el script esté activo
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            try {
+                // Variables para los elementos
+                const articuloSearch = document.getElementById('articuloSearch');
+                const codigoAlmacen = document.getElementById('CodigoAlmacen');
+                const agregarArticulosBtn = document.getElementById('agregarArticulosBtn');
+                const transaccionForm = document.getElementById('transaccionForm');
+
+                // Listeners para las acciones
+                if (articuloSearch) {
+                    articuloSearch.addEventListener('keyup', filterArticulos);
+                }
+
+                if (codigoAlmacen) {
+                    codigoAlmacen.addEventListener('change', updateNingresos);
+                }
+
+                if (agregarArticulosBtn) {
+                    agregarArticulosBtn.addEventListener('click', agregarArticulos);
+                }
+
+                if (transaccionForm) {
+                    transaccionForm.addEventListener('submit', enviarFormulario);
+                }
+
+                // Función para actualizar el número de ingresos
+                function updateNingresos() {
+                    const almacenSelect = document.getElementById('CodigoAlmacen');
+                    const ningresosInput = document.getElementById('Ningresos');
+                    const almacen = almacenSelect ? almacenSelect.value : '';
+
+                    if (almacen) {
+                        fetch(`/Transacciones/GenerarCodigo?codigoAlmacen=${almacen}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.nuevoCodigo) {
+                                    if (ningresosInput) ningresosInput.value = data.nuevoCodigo;
+                                    actualizarCamposDetalles(data.nuevoCodigo, almacenSelect);
+                                } else if (data.error) {
+                                    toastr.error(data.error, 'Error');
+                                }
+                            })
+                            .catch(() => toastr.error('Error al obtener el número de ingresos', 'Error'));
+                    } else {
+                        limpiarCamposDetalles();
+                    }
+                }
+
+                // Limpia los campos del formulario de detalles
+                function limpiarCamposDetalles() {
+                    const campos = ['Ningresos', 'DetalleNingresos', 'DetalleCodigoAlmacen', 'DetalleFechaIngreso', 'DetalleOperacion'];
+                    campos.forEach(id => {
+                        const campo = document.getElementById(id);
+                        if (campo) campo.value = '';
+                    });
+                }
+
+                // Actualiza los detalles del formulario
+                function actualizarCamposDetalles(nuevoCodigo, almacenSelect) {
+                    const detalleNingresos = document.getElementById('DetalleNingresos');
+                    const detalleCodigoAlmacen = document.getElementById('DetalleCodigoAlmacen');
+                    const detalleFechaIngreso = document.getElementById('DetalleFechaIngreso');
+                    const detalleOperacion = document.getElementById('DetalleOperacion');
+
+                    if (detalleNingresos) detalleNingresos.value = nuevoCodigo;
+                    if (detalleCodigoAlmacen) detalleCodigoAlmacen.value = almacenSelect.options[almacenSelect.selectedIndex].text;
+                    if (detalleFechaIngreso) detalleFechaIngreso.value = document.querySelector('#FechaIngreso')?.value || '';
+                    if (detalleOperacion) detalleOperacion.value = 'Ingreso';
+                }
+
+                // Filtra los artículos en la tabla
+                function filterArticulos() {
+                    const searchInput = articuloSearch.value.toLowerCase();
+                    const rows = document.querySelectorAll('#articulosModalTable tbody tr');
+
+                    rows.forEach(row => {
+                        const descripcion = row.cells[2].textContent.toLowerCase();
+                        row.style.display = descripcion.includes(searchInput) ? '' : 'none';
+                    });
+                }
+
+                // Agrega los artículos seleccionados a la tabla de detalles
+                function agregarArticulos() {
+                    const articulosModalTable = document.getElementById('articulosModalTable');
+                    const articulosTableBody = document.getElementById('articulosTableBody');
+                    const checkboxes = articulosModalTable.querySelectorAll('input[type="checkbox"]:checked');
+
+                    checkboxes.forEach(checkbox => {
+                        const row = checkbox.closest('tr');
+                        const identificadorArticulo = checkbox.value; // Usar el valor del checkbox como identificador
+                        const descripcion = row.cells[2].textContent;
+
+                        if (!isArticuloDuplicado(articulosTableBody, identificadorArticulo)) {
+                            agregarFilaDetalles(articulosTableBody, identificadorArticulo, descripcion);
+                            toastr.success('Artículo agregado correctamente', 'Éxito');
+                        } else {
+                            toastr.warning(`El artículo con identificador ${identificadorArticulo} ya ha sido agregado.`, 'Advertencia');
+                        }
+                    });
+
+                    const modal = document.getElementById('buscarArticulosModal');
+                    const modalInstance = bootstrap.Modal.getInstance(modal);
+                    modalInstance.hide();
+                    updateTotalSum();
+                }
+
+                // Verifica si el artículo ya está agregado
+                function isArticuloDuplicado(articulosTableBody, identificadorArticulo) {
+                    const existingRows = articulosTableBody.querySelectorAll('tr');
+                    return Array.from(existingRows).some(existingRow => existingRow.cells[0].textContent === identificadorArticulo);
+                }
+
+                // Agrega una nueva fila de detalles
+                function agregarFilaDetalles(articulosTableBody, codigo, descripcion) {
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                            <td>${codigo}</td>
+                            <td>${descripcion}</td>
+                            <td><input type="number" name="Entrada[]" class="form-control" min="0" maxlength="8" /></td>
+                            <td><input type="number" name="PrecioUnitario[]" class="form-control" step="0.01" min="0" /></td>
+                            <td><input type="number" name="Total[]" class="form-control" value="0" readonly /></td>
+                        `;
+                    articulosTableBody.appendChild(newRow);
+                }
+
+                // Calcula la suma total de los artículos
+                const articulosTable = document.getElementById('articulosTable');
+                if (articulosTable) {
+                    articulosTable.addEventListener('input', event => {
+                        if (event.target.matches('input[name="Entrada[]"], input[name="PrecioUnitario[]"]')) {
+                            const row = event.target.closest('tr');
+                            const entrada = row.querySelector('input[name="Entrada[]"]').value;
+                            const precioUnitario = row.querySelector('input[name="PrecioUnitario[]"]').value;
+                            const total = entrada * precioUnitario;
+                            row.querySelector('input[name="Total[]"]').value = total.toFixed(2);
+                            updateTotalSum();
+                        }
+                    });
+                }
+
+                // Actualiza la suma total
+                function updateTotalSum() {
+                    let totalSum = 0;
+                    const rows = document.getElementById('articulosTableBody').querySelectorAll('tr');
+                    rows.forEach(row => {
+                        const total = parseFloat(row.querySelector('input[name="Total[]"]').value) || 0;
+                        totalSum += total;
+                    });
+                    document.getElementById('totalSum').textContent = totalSum.toFixed(2);
+                }
+
+                // Añade artículos seleccionados al FormData
+                function addSelectedArticulosToFormData(formData) {
+                    const articulosTableBody = document.getElementById('articulosTableBody');
+                    const rows = articulosTableBody.querySelectorAll('tr');
+
+                    rows.forEach((row, index) => {
+                        const codigo = row.cells[0].textContent.trim();
+                        const entrada = parseFloat(row.querySelector('input[name="Entrada[]"]').value) || 0;
+                        const precioUnitario = parseFloat(row.querySelector('input[name="PrecioUnitario[]"]').value) || 0;
+
+                        formData.append(`SelectedArticulos[${index}].Codigo`, codigo);
+                        formData.append(`SelectedArticulos[${index}].Entrada`, entrada);
+                        formData.append(`SelectedArticulos[${index}].PrecioUnitario`, precioUnitario);
+                    });
+                }
+
+                // Envía el formulario
+                function enviarFormulario(event) {
+                    event.preventDefault();
+
+                    const form = event.target;
+                    const formData = new FormData(form);
+                    addSelectedArticulosToFormData(formData);
+
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                    })
+                        .then(response => response.json())
+                        .then(data => showResultMessage(data))
+                        .catch(() => toastr.error('Error al enviar el formulario', 'Error'));
+                }
+
+                // Muestra un mensaje de resultado
+                function showResultMessage(data) {
+                    if (data.success) {
+                        toastr.success(data.message, 'Éxito');
+                        setTimeout(() => window.location.href = '/Transacciones/Index', 1000);
+                    } else {
+                        toastr.error(data.message, 'Error');
+                    }
+                }
+            } catch (error) {
+                console.error('Ocurrió un error en el script:', error);
+                toastr.error('Ocurrió un error en el script', 'Error');
+            }
+        });
+    </script>
+
+
+
+}
+

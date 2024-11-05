@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SISGESAL</title>
+
+    <!-- Agregar favicon -->
+    <link rel="icon" href="~/logoSISGESAL.png" type="image/x-icon" />
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="~/AdminLTE/plugins/fontawesome-free/css/all.min.css" />
+    <link rel="stylesheet" href="~/AdminLTE/dist/css/adminlte.min.css" />
+    <!--  CSS personalizado -->
+    <link rel="stylesheet" href="~/css/custom.css" />
+    <!-- Enlazar toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <!-- Enlazar jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Enlazar toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        .sidebar-divider {
+            border-top: 1px solid white;
+        }
+
+        /* Estilo personalizado para cambiar el color de las letras a blanco en la barra lateral */
+        .sidebar .nav-link, .sidebar .brand-link, .sidebar .user-panel .info a {
+            color: white !important;
+        }
+
+        /* Estilo para quitar la barra lateral y de navegación */
+        .full-screen-body {
+            background-color: #f4f6f9; /* Cambia el color de fondo según lo necesites */
+        }
+
+        /* Estilo personalizado para el login y logout */
+        .user-panel .info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+            .user-panel .info .logout-btn {
+                margin-top: 5px;
+            }
+
+            .user-panel .info a {
+                color: white;
+                text-decoration: none;
+            }
+
+            .user-panel .info i {
+                margin-right: 5px;
+            }
+
+            .user-panel .info a.logout-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 5px 10px;
+                background-color: #dc3545;
+                border-radius: 5px;
+                text-align: center;
+            }
+
+                .user-panel .info a.logout-btn:hover {
+                    background-color: #c82333;
+                }
+        /* Estilo personalizado para el logo */
+        .custom-logo {
+            width: 400px; /* Ajusta el ancho según sea necesario */
+            height: auto; /* Mantiene la proporción de la imagen */
+        }
+
+
+    </style>
+    @RenderSection("styles", required: false)
+</head>
+<body class="hold-transition sidebar-mini layout-fixed @((Context.Request.Path.Value.Contains("/Identity/Account/Login") || Context.Request.Path.Value.Contains("/Identity/Account/Register")) ? "full-screen-body" : "")">
+    <div class="wrapper">
+        <!-- Condición para mostrar u ocultar la navbar y la sidebar -->
+        @if (!(Context.Request.Path.Value.Contains("/Identity/Account/Login") || Context.Request.Path.Value.Contains("/Identity/Account/Register")))
+        {
+            <!-- Navbar -->
+            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+                <!-- Left navbar links -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    </li>
+                </ul>
+                <!-- Right navbar links -->
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <partial name="_LoginPartial" />
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Sidebar -->
+            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+                <!-- Brand Logo -->
+                <a href="/" class="brand-link">
+                    <!-- Cambia la ruta de la imagen al logo de tu empresa -->
+                    <img src="~/LogoInfo.png" alt="Tu Logo" class="brand-image img-circle elevation-3 custom-logo" />
+                    <!-- Cambia el texto "AdminLTE 3" por el nombre de tu sistema o empresa -->
+                    <span class="brand-text font-weight-light">SISGESAL</span>
+                </a>
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Sidebar Menu -->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <li class="nav-item">
+                                <a href="/Dashboard/Index" class="nav-link">
+                                    <i class="nav-icon fas fa-home"></i>
+                                    <p>Inicio</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Almacenes/Index" class="nav-link">
+                                    <i class="nav-icon fas fa-warehouse"></i>
+                                    <p>Almacenes</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Articulos/Index" class="nav-link">
+                                    <i class="nav-icon fas fa-box"></i>
+                                    <p>Artículos</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/ConfiguraAlmacenArticulo/Index" class="nav-link">
+                                    <i class="fas fa-cogs"></i>
+                                    <p>Configuración Almacén y Articulos</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                               <a href="/Transacciones/Index" class="nav-link">
+                                    <i class="fas fa-exchange-alt"></i>
+                                   <p>Transacciones</p>
+                               </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/TransaccionDetalles/Index" class="nav-link">
+                                    <i class="fas fa-list-alt"></i>
+                                    <p> Detalles Transacciones</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#reportesMenu" aria-expanded="false" aria-controls="reportesMenu">
+                                    <i class="fas fa-chart-line"></i> <!-- Ícono nuevo para "Reportes" -->
+                                    <p class="ms-2 mb-0">Reportes</p>
+                                    <i class="fas fa-chevron-down ms-auto"></i> <!-- Icono para mostrar/ocultar submenú -->
+                                </a>
+                                <ul class="sub-menu collapse" id="reportesMenu">
+                                    <li class="nav-item">
+                                        <a href="/Almacenes/Report" class="nav-link d-flex align-items-center">
+                                            <i class="fas fa-warehouse"></i> <!-- Icono para "Reportes Almacenes" -->
+                                            <p class="ms-2 mb-0">Reportes Almacenes</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/Articulos/Report" class="nav-link d-flex align-items-center">
+                                            <i class="fas fa-box"></i> <!-- Icono para "Reportes Artículos" -->
+                                            <p class="ms-2 mb-0">Reportes Artículos</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/ConfiguraAlmacenArticulo/Report" class="nav-link">
+                                            <i class="fas fa-cogs"></i>
+                                            <p>Reportes Configuración Almacenes</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/Transacciones/Report" class="nav-link">
+                                            <i class="fas fa-exchange-alt"></i>
+                                            <p>Reportes Transacciones</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/TransaccionDetalles/Report" class="nav-link">
+                                            <i class="fas fa-list-alt"></i>
+                                            <p> Reportes Detalles Transacciones</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            
+
+                        </ul>
+                    </nav>
+
+                
+
+                    <!-- Línea divisora -->
+                    <hr class="sidebar-divider my-2">
+
+                    <!-- Sidebar user panel (optional) -->
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="info">
+                            <partial name="_LoginPartial" />
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        }
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div><!-- /.container-fluid -->
+            </section>
+        </div>
+        @if (!(Context.Request.Path.Value.Contains("/Identity/Account/Login") || Context.Request.Path.Value.Contains("/Identity/Account/Register")))
+        {
+            <!-- Footer -->
+            <footer class="main-footer">
+                <strong>&copy; 2024 - SISGESAL </strong>
+            </footer>
+        }
+    </div>
+    <!-- ./wrapper -->
+    <!-- AdminLTE scripts -->
+    <script src="~/AdminLTE/plugins/jquery/jquery.min.js"></script>
+    <script src="~/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/AdminLTE/dist/js/adminlte.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

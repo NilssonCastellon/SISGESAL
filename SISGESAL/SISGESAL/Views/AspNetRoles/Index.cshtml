@@ -1,0 +1,38 @@
+﻿@model IEnumerable<SISGESAL.Models.ViewModels.AspNetRoleViewModel>
+
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Normalized Name</th>
+            <th>Concurrency Stamp</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var role in Model)
+            {
+                <tr>
+                    <td>@role.Id</td>
+                    <td>@role.Name</td>
+                    <td>@role.NormalizedName</td>
+                    <td>@role.ConcurrencyStamp</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">No roles found</td>
+            </tr>
+        }
+    </tbody>
+</table>
