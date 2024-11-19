@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <!-- Agregar favicon -->
+    <link rel="icon" href="~/logoSISGESAL.png" type="image/x-icon" />
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="~/AdminLTE/plugins/fontawesome-free/css/all.min.css" />
+    <link rel="stylesheet" href="~/AdminLTE/dist/css/adminlte.min.css" />
+    <!--  CSS personalizado -->
+    <link rel="stylesheet" href="~/css/custom.css" />
+    <!-- Enlazar toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <!-- Enlazar jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Enlazar toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    @RenderSection("styles", required: false)
+</head>
+<body>
+
+    <!-- Content Wrapper. Contains page content -->
+@*     <div class="content-wrapper">
+        <section class="content">
+            <div class="container-fluid"> *@
+
+                @RenderBody()
+
+                <!-- /.row (main row) -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

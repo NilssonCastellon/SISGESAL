@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Rotativa.AspNetCore;
+using ServiceStack.Text;
 using SISGESAL.Areas.Identity.Data;
 using SISGESAL.Data;
 using SISGESAL.Models;
@@ -66,9 +68,25 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 
+
+
+//app.UseMvc(routes =>
+//{
+//    routes.MapRoute(
+//        name: "default",
+//        template: "{controller=Home}/{action=Index}/{id?}");
+//});
+
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+//uso de rotativa para imprimir pdf
+app.UseRotativa();
+
 app.Run();
+
+//RotativaConfiguration.Setup(Env, "path/relative/to/root");

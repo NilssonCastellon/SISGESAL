@@ -1,12 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\PROYECTOSCSHARP\\SISGESAL\\SISGESAL\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|c:\\proyectoscsharp\\sisgesal\\sisgesal\\sisgesal\\controllers\\articuloscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9C66D225-F60B-4F30-9801-89BFB9BFB385}|SISGESAL\\SISGESAL.csproj|solutionrelative:sisgesal\\controllers\\articuloscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 1,
@@ -14,8 +9,12 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -26,20 +25,7 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ArticulosController.cs",
-              "DocumentMoniker": "C:\\PROYECTOSCSHARP\\SISGESAL\\SISGESAL\\SISGESAL\\Controllers\\ArticulosController.cs",
-              "RelativeDocumentMoniker": "SISGESAL\\Controllers\\ArticulosController.cs",
-              "ToolTip": "C:\\PROYECTOSCSHARP\\SISGESAL\\SISGESAL\\SISGESAL\\Controllers\\ArticulosController.cs",
-              "RelativeToolTip": "SISGESAL\\Controllers\\ArticulosController.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAowE0AAABIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T19:56:31.43Z",
-              "EditorCaption": ""
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             }
           ]
         }

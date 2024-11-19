@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using SISGESAL.Areas.Identity.Data;
+using Rotativa.AspNetCore;
 
 
 namespace SISGESAL.Controllers
@@ -159,5 +160,51 @@ namespace SISGESAL.Controllers
             return View("Report", transaccionDetalles); // Asegúrate de usar 'transaccionDetalles'
         }
 
+        public async Task<IActionResult> Details(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var transaccion = await _context.Transaccions
+                .Include(x => x.TransaccionDetalles!)
+                .ThenInclude(a => a.CodigoAlmacenNavigation)
+                .Include(a => a.TransaccionDetalles!)
+                .ThenInclude(a => a.CodigoArticuloNavigation)
+                .FirstOrDefaultAsync(m => m.Ningresos == id);
+            if (transaccion == null)
+            {
+                return NotFound();
+            }
+
+            return View(transaccion);
+        }
+
+        public async Task<IActionResult> PrintDetails(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var transaccion = await _context.Transaccions
+                .Include(x => x.TransaccionDetalles!)
+                .ThenInclude(a => a.CodigoAlmacenNavigation)
+                .Include(a => a.TransaccionDetalles!)
+                .ThenInclude(a => a.CodigoArticuloNavigation)
+                .FirstOrDefaultAsync(m => m.Ningresos == id);
+            if (transaccion == null)
+            {
+                return NotFound();
+            }
+
+            return new ViewAsPdf(transaccion);
+        }
+
+        private bool TransaccionExists(string? id)
+        {
+            return _context.Transaccions.Any(e => e.Ningresos == id);
+        }
     }
 }

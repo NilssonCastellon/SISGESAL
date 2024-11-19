@@ -8233,6 +8233,14 @@
       "PackagePath": "staticwebassets\\LogoPJ-SEJE.png"
     },
     {
+      "Id": "C:\\PROYECTOSCSHARP\\SISGESAL\\SISGESAL\\SISGESAL\\wwwroot\\Rotativa\\wkhtmltoimage.exe",
+      "PackagePath": "staticwebassets\\Rotativa\\wkhtmltoimage.exe"
+    },
+    {
+      "Id": "C:\\PROYECTOSCSHARP\\SISGESAL\\SISGESAL\\SISGESAL\\wwwroot\\Rotativa\\wkhtmltopdf.exe",
+      "PackagePath": "staticwebassets\\Rotativa\\wkhtmltopdf.exe"
+    },
+    {
       "Id": "C:\\PROYECTOSCSHARP\\SISGESAL\\SISGESAL\\SISGESAL\\wwwroot\\config\\.eslintrc.json",
       "PackagePath": "staticwebassets\\config\\.eslintrc.json"
     },

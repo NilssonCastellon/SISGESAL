@@ -17,123 +17,137 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = SISGESAL
 build_property.RootNamespace = SISGESAL
-build_property.ProjectDir = c:\PROYECTOSCSHARP\SISGESAL\SISGESAL\SISGESAL\
+build_property.ProjectDir = C:\PROYECTOSCSHARP\SISGESAL\SISGESAL\SISGESAL\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = true
-build_property.MSBuildProjectDirectory = c:\PROYECTOSCSHARP\SISGESAL\SISGESAL\SISGESAL
+build_property.MSBuildProjectDirectory = C:\PROYECTOSCSHARP\SISGESAL\SISGESAL\SISGESAL
 build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/Account/Login.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/Account/Register.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/Account/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/_AuthLayout.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/_AuthLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX0F1dGhMYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/_ViewImports.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/_ViewStart.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Account/SendTestEmail.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Account/SendTestEmail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxTZW5kVGVzdEVtYWlsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Almacenes/Index.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Almacenes/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWxtYWNlbmVzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Almacenes/Report.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Almacenes/Report.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWxtYWNlbmVzXFJlcG9ydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Articulos/Index.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Articulos/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWN1bG9zXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Articulos/Report.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Articulos/Report.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWN1bG9zXFJlcG9ydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/AspNetRoles/Index.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/AspNetRoles/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0Um9sZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/AspNetUsers/Index.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/AspNetUsers/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlcnNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/ConfiguraAlmacenArticulo/Index.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/ConfiguraAlmacenArticulo/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZmlndXJhQWxtYWNlbkFydGljdWxvXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Dashboard/Index.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Dashboard/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Home/Index.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Home/Privacy.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Shared/Error.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Shared/_LoginPartial.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Shared/_ForPrintDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb3JQcmludERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/TransaccionDetalles/Index.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/TransaccionDetalles/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNhY2Npb25EZXRhbGxlc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/TransaccionDetalles/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNhY2Npb25EZXRhbGxlc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Transacciones/Create.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/TransaccionDetalles/PrintDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNhY2Npb25EZXRhbGxlc1xQcmludERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Transacciones/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNhY2Npb25lc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Transacciones/Index.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Transacciones/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNhY2Npb25lc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Transacciones/Report.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Transacciones/Report.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNhY2Npb25lc1xSZXBvcnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/_ViewImports.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/_ViewStart.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Shared/_Layout.cshtml]
+[C:/PROYECTOSCSHARP/SISGESAL/SISGESAL/SISGESAL/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-ejo9xbfkz3

@@ -1,0 +1,166 @@
+﻿@model SISGESAL.Models.Transaccion
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<br />
+<h1><b>Transacción: </b><b class="text-red">@Html.DisplayFor(model => model.Ningresos)</b></h1>
+
+<div>
+    <hr />
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CodigoAlmacen)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CodigoAlmacen)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CodigoAlmacenNavigation.Descripcion)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CodigoAlmacenNavigation.Descripcion)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Nrequisicion)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Nrequisicion)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.FechaRequisicion)
+                </dt>
+                <dd class="col-sm-10">
+                    @Model.FechaRequisicion.ToShortDateString()
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Operacion)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Operacion)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.FechaIngreso)
+                </dt>
+                <dd class="col-sm-10">
+                    @Model.FechaIngreso.ToShortDateString()
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Observacion)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Observacion)
+                </dd>
+            </dl>
+            <div>
+                <a href="/Transacciones/Index" class="btn btn-dark">Regresar</a>
+                <a href="/TransaccionDetalles/PrintDetails/@Html.DisplayFor(model => model.Ningresos)" class="btn btn-success" target="_blank" title="PDF">Imprimir</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-info">
+        <h5 style="text-align:center;"><b>DETALLE</b></h5>
+    </div>
+    <div class="card-body">
+        <div style="text-align: center;">
+            <table id="table" class="table">
+                <thead>
+                    <tr>
+                        @*  <th>Identificador</th> *@
+                        <th>Código Artículo</th>
+                        <th>Descripción Artículo</th>
+                        <th>Entrada</th>
+                        <th>Precio Unitario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.TransaccionDetalles)
+                    {
+                        <tr>
+                            @*  <td>@item.IdentificadorTrans</td> *@
+                            <td>@item.CodigoArticulo</td>
+                            <td>@Html.DisplayFor(modelItem => item.CodigoArticuloNavigation.DescripcionArticulo)</td>
+                            <td>@item.Entrada</td>
+                            <td>@item.PrecioUnitario</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rowsPerPage = 15;
+            const table = document.getElementById('table');
+            const pagination = document.getElementById('pagination');
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            const pageCount = Math.ceil(rows.length / rowsPerPage);
+            let currentPage = 1;
+
+            function showPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                rows.forEach((row, index) => {
+                    row.style.display = index >= start && index < end ? '' : 'none';
+                });
+                currentPage = page;
+                updatePagination();
+            }
+
+            function updatePagination() {
+                pagination.innerHTML = '';
+                const buttonPrev = document.createElement('li');
+                buttonPrev.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+                buttonPrev.innerHTML = `<a class="page-link" href="#">Página Anterior</a>`;
+                buttonPrev.addEventListener('click', () => {
+                    if (currentPage > 1) {
+                        showPage(currentPage - 1);
+                    }
+                });
+                pagination.appendChild(buttonPrev);
+
+                for (let i = 1; i <= pageCount; i++) {
+                    const button = document.createElement('li');
+                    button.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                    button.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                    button.addEventListener('click', () => showPage(i));
+                    pagination.appendChild(button);
+                }
+
+                const buttonNext = document.createElement('li');
+                buttonNext.className = `page-item ${currentPage === pageCount ? 'disabled' : ''}`;
+                buttonNext.innerHTML = `<a class="page-link" href="#">Página Siguiente</a>`;
+                buttonNext.addEventListener('click', () => {
+                    if (currentPage < pageCount) {
+                        showPage(currentPage + 1);
+                    }
+                });
+                pagination.appendChild(buttonNext);
+            }
+
+            showPage(1);
+        });
+
+    </script>
+}  
+

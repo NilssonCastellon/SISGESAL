@@ -38,7 +38,8 @@
             <th>Operación</th>
             <th>Fecha Ingreso</th>
             <th>Observación</th>
-            
+            <th>Acciones</th>
+
         </tr>
     </thead>
     <tbody>
@@ -52,7 +53,10 @@
                 <td>@item.Operacion</td>
                 <td>@item.FechaIngreso.ToString("dd/MM/yyyy")</td>
                 <td>@item.Observacion</td>
-                
+                <td>
+                    <a href="/TransaccionDetalles/Details/@item.Ningresos" class="btn btn-info"><i class="fas fa-list-alt"></i></a>
+                    <a href="/TransaccionDetalles/PrintDetails/@item.Ningresos" class="btn btn-success" target="_blank"><i class="fas fa-file"></i></a>
+                </td>
             </tr>
         }
     </tbody>

@@ -1,0 +1,61 @@
+﻿@model SISGESAL.Models.Transaccion
+
+@{
+    ViewData["Title"] = "PrintDetails";
+    Layout = "~/Views/Shared/_ForPrintDetails.cshtml";
+}
+
+<form>
+    <p>
+        <img src="~/LogoInfo.png" height="70" width="170" style="text-align:right;" />
+        <h1><b>SISGESAL</b></h1>
+        <h4><b>Transacción: </b>@Html.DisplayFor(model => model.Ningresos)</></h4>
+    </p>
+    <hr />
+    <p>
+        <b>Código de Almacén: </b>@Html.DisplayFor(model => model.CodigoAlmacen)<br />
+        <b>Nombre de Almacén: </b>@Model.CodigoAlmacenNavigation.Descripcion<br />
+        <b>Número de Requisición: </b>@Html.DisplayFor(model => model.Nrequisicion)<br />
+        <b>Fecha de Requisición: </b>@Model.FechaRequisicion.ToShortDateString()<br />
+        <b>Operación: </b>@Html.DisplayFor(model => model.Operacion)<br />
+        <b>Fecha de Ingreso: </b>@Model.FechaIngreso.ToShortDateString()<br />
+        <b>Observación: </b>@Html.DisplayFor(model => model.Observacion)<br />
+    </p>
+
+    <hr />
+    <div style="text-align: center;">
+        <table id="tabla" class="table" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Código Artículo</th>
+                    <th>Descripción Artículo</th>
+                    <th>Entrada</th>
+                    <th>Precio Unitario</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.TransaccionDetalles)
+                {
+                    <tr>
+                        <td>@item.CodigoArticulo</td>
+                        <td>@Html.DisplayFor(modelItem => item.CodigoArticuloNavigation.DescripcionArticulo)</td>
+                        <td>@item.Entrada</td>
+                        <td>@item.PrecioUnitario</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <hr />
+</form>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+}

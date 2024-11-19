@@ -11,6 +11,7 @@ using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Security.Claims;
 using System.Text;
+using Rotativa.AspNetCore;
 
 namespace SISGESAL.Controllers
 {
@@ -484,7 +485,5 @@ namespace SISGESAL.Controllers
 
             return View("Report", transacciones);
         }
-
-
     }
 }
